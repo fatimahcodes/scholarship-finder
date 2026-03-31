@@ -14,17 +14,37 @@ const scholarships = [
 ];
 
 const container = document.getElementById("scholarships");
+const searchInput = document.getElementById("search");
 
-scholarships.forEach(sch => {
-    const div = document.createElement("div");
-    div.classList.add("card");
+function displayScholarships(list) {
+    container.innerHTML = "";
 
-    div.innerHTML = `
-        <h2>${sch.name}</h2>
-        <p>Country: ${sch.country}</p>
-        <p>Deadline: ${sch.deadline}</p>
-        <a href="${sch.link}">Apply</a>
-    `;
+    list.forEach(sch => {
+        const div = document.createElement("div");
+        div.classList.add("card");
 
-    container.appendChild(div);
+        div.innerHTML = `
+            <h2>${sch.name}</h2>
+            <p>Country: ${sch.country}</p>
+            <p>Deadline: ${sch.deadline}</p>
+            <a href="${sch.link}">Apply</a>
+        `;
+
+        container.appendChild(div);
+    });
+}
+
+// Initial display
+displayScholarships(scholarships);
+
+// Search feature
+searchInput.addEventListener("input", () => {
+    const value = searchInput.value.toLowerCase();
+
+    const filtered = scholarships.filter(sch =>
+        sch.name.toLowerCase().includes(value) ||
+        sch.country.toLowerCase().includes(value)
+    );
+
+    displayScholarships(filtered);
 });
